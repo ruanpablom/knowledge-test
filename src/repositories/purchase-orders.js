@@ -29,4 +29,11 @@ module.exports = class PurchaseOrdersRepository {
 
         return purchaseOrders;
     }
+
+    async create(purchaseOrders) {
+        const sql = `INSERT INTO 
+                        purchase_orders(product_id, price)
+                      VALUES (?,?)`;
+        return db.persistMany(sql, purchaseOrders);
+    }
 };
