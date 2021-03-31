@@ -10,7 +10,6 @@ module.exports = class FindAllPurchaseOrdersController {
             const purchaseOrders = await this.repository.findAll();
             return success({ purchaseOrders });
         } catch (error) {
-            console.log(error);
             return serverError(error);
         }
     }

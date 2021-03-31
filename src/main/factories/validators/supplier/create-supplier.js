@@ -8,8 +8,22 @@ const getMandatoryFields = () => [
 ];
 
 const getSchema = () => ({
-    name: value => typeof value === 'string' && value.length <= 50,
-    country: value => typeof value === 'string' && value.length <= 50,
+    name: value => {
+        const stringSize = 50;
+        const constraints = [typeof value !== 'string', value.length > stringSize];
+        return {
+            err: constraints.reduce((accumulator, currentValue) => accumulator || currentValue ),
+            message: `${constraints[0] ? 'expect a string' : ''} ${constraints[1] ? `length must be <= ${stringSize}` : ''}`
+        };
+    },
+    country: value => {
+        const stringSize = 50;
+        const constraints = [typeof value !== 'string', value.length > stringSize];
+        return {
+            err: constraints.reduce((accumulator = false, currentValue) => accumulator || currentValue ),
+            message: `${constraints[0] ? 'expect a string' : ''} ${constraints[1] ? `length must be <= ${stringSize}` : ''}`
+        };
+    },
 });
 
 module.exports = () => {

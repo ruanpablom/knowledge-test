@@ -8,8 +8,20 @@ const getMandatoryFields = () => [
 ];
 
 const getSchema = () => ({
-    description: value => typeof value === 'string' && value.length <= 100,
-    supplier_id: value => typeof value === 'number',
+    description: value => {
+        const stringSize = 100;
+        const constraints = [typeof value !== 'string', value.length > stringSize];
+        return {
+            err: constraints.reduce((accumulator, currentValue) => accumulator || currentValue ),
+            message: `${constraints[0] ? 'expect a string' : ''} ${constraints[1] ? `length must be <= ${stringSize}` : ''}`
+        };
+    },
+    supplier_id: value => {
+        return {
+            err: typeof value !== 'number',
+            message: 'expect number'
+        };
+    },
 });
 
 module.exports = () => {
