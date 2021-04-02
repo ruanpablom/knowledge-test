@@ -12,9 +12,9 @@ CREATE TABLE purchase_orders (
 );
 
 INSERT INTO 
-    purchase_orders (product_id, price) 
+    purchase_orders (product_id, price, deletion_flag) 
 VALUES 
-    (1, 0.90);
+    (1, 0.90, "0");
 --------------------------------------------------------------------------------
 -- Down
 --------------------------------------------------------------------------------

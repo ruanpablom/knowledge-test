@@ -31,6 +31,11 @@ module.exports = class SQLiteAdapter {
         return this.client.all(sql);
     }
 
+    async delete(sql) {
+        await this.reconectIfIsNotConnected();
+        return this.client.run(sql);
+    }
+
     async persist(sql, getLastInsertedId = false) {
         await this.reconectIfIsNotConnected();
 

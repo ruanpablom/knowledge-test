@@ -8,6 +8,7 @@ module.exports = class PurchaseOrdersRepository {
           SELECT
             purchase_orders.id,
             price,
+            deletion_flag,
             json_object(
               'id',products.id,
               'description',products.description,
@@ -19,8 +20,11 @@ module.exports = class PurchaseOrdersRepository {
             ) as product
           FROM
             purchase_orders
-          JOIN products on products.id = purchase_orders.product_id
-          JOIN suppliers WHERE suppliers.id = products.supplier_id
+          JOIN products 
+            ON products.id = purchase_orders.product_id
+          JOIN suppliers 
+            ON suppliers.id = products.supplier_id
+          WHERE purchase_orders.deletion_flag <> "1"
       `;
         const purchaseOrders = await db.select(sql);
         for (const purchaseOrder of purchaseOrders) {
@@ -35,5 +39,23 @@ module.exports = class PurchaseOrdersRepository {
                         purchase_orders(product_id, price)
                       VALUES (?,?)`;
         return db.persistMany(sql, purchaseOrders);
+    }
+
+    async findById(id) {
+        const sql = `SELECT 
+                      id 
+                    FROM
+                        purchase_orders
+                    WHERE id = ${id} and deletion_flag <> "1"`;
+        return db.select(sql);
+    }
+
+    async delete(purchaseOrderId) {
+        const sql = `UPDATE purchase_orders
+                      SET 
+                        deletion_flag = "1"
+                      WHERE
+                          id = ${purchaseOrderId}`;
+        return db.delete(sql);
     }
 };
