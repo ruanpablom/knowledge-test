@@ -5,7 +5,7 @@
 1. ✅ Recebe uma requisição do tipo **POST** na rota **/api/suppliers**
 2. ✅ Valida dados obrigatórios **name** e **country**
 3. ✅ **Cria** um fornecedor com os dados fornecidos
-4. ✅ Retorna **204**, sem dados
+4. ✅ Retorna **201**, com os suppliers criados
 
 > ## Exceções
 
