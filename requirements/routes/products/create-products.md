@@ -5,7 +5,7 @@
 1. ✅ Recebe uma requisição do tipo **POST** na rota **/api/products**
 2. ✅ Valida dados obrigatórios **description** e **supplier_id**
 3. ✅ **Cria** um produto com os dados fornecidos
-4. ✅ Retorna **204**, sem dados
+4. ✅ Retorna **201**, com os produtos criados
 
 > ## Exceções
 
