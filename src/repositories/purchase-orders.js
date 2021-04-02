@@ -36,8 +36,8 @@ module.exports = class PurchaseOrdersRepository {
 
     async create(purchaseOrders) {
         const sql = `INSERT INTO 
-                        purchase_orders(product_id, price)
-                      VALUES (?,?)`;
+                        purchase_orders(product_id, price, deletion_flag)
+                      VALUES (?,?,"0")`;
         return db.persistMany(sql, purchaseOrders);
     }
 

@@ -17,12 +17,12 @@ module.exports = class DeletePurchaseOrderController {
             const idExists = await this.repository.findById(id);
 
             if (idExists.length === 0) {
-                return badRequest(new Error('Order doesn\'t exists on DB'));
+                return badRequest([(new Error('Order doesn\'t exists on DB')).message]);
             }
 
-            const deletedOrder = await this.repository.delete(id);
+            await this.repository.delete(id);
 
-            return deleted(deletedOrder);
+            return deleted();
         } catch (error) {
             console.log(error);
             return serverError(error);

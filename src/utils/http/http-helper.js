@@ -26,9 +26,8 @@ const created = (data) => ({
     body: data
 });
 
-const deleted = (deleted) => ({
-    statusCode: 202,
-    body: deleted
+const deleted = () => ({
+    statusCode: 202
 });
 
 const noContent = () => ({
