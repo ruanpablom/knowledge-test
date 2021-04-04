@@ -69,23 +69,9 @@ describe('CreateProduct Controller', () => {
         expect(httpResponse).toEqual(badRequest(validationSpy.error));
     });
 
-    it('should return 400 if Validation returns an error array', async () => {
-        const { sut, validationSpy } = makeSut();
-        validationSpy.error = [new MissingParamError(faker.random.word())];
-        const httpResponse = await sut.handle(mockRequest());
-        expect(httpResponse).toEqual(badRequest(validationSpy.error));
-    });
-
     it('should return 200 if valid array data is provided', async () => {
         const { sut } = makeSut();
         const request = mockArrayRequest();
-        const httpResponse = await sut.handle(request);
-        expect(httpResponse).toEqual(created(request.body));
-    });
-
-    it('should return 200 if valid data is provided', async () => {
-        const { sut } = makeSut();
-        const request = mockRequest();
         const httpResponse = await sut.handle(request);
         expect(httpResponse).toEqual(created(request.body));
     });
