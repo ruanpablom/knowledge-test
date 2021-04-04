@@ -1,8 +1,9 @@
 const makeDbInstance = require('../main/factories/db');
 
-const db = makeDbInstance();
-
 module.exports = class PurchaseOrdersRepository {
+    constructor() {
+        this.db = makeDbInstance();
+    }
     async findAll() {
         const sql = `
           SELECT
@@ -26,7 +27,7 @@ module.exports = class PurchaseOrdersRepository {
             ON suppliers.id = products.supplier_id
           WHERE purchase_orders.deletion_flag <> "1"
       `;
-        const purchaseOrders = await db.select(sql);
+        const purchaseOrders = await this.db.select(sql);
         for (const purchaseOrder of purchaseOrders) {
             purchaseOrder.product = JSON.parse(purchaseOrder.product);
         }
@@ -37,8 +38,8 @@ module.exports = class PurchaseOrdersRepository {
     async create(purchaseOrders) {
         const sql = `INSERT INTO 
                         purchase_orders(product_id, price, deletion_flag)
-                      VALUES (?,?,"0")`;
-        return db.persistMany(sql, purchaseOrders);
+                      VALUES (?,?, "0")`;
+        return this.db.persistMany(sql, purchaseOrders);
     }
 
     async findById(id) {
@@ -47,7 +48,7 @@ module.exports = class PurchaseOrdersRepository {
                     FROM
                         purchase_orders
                     WHERE id = ${id} and deletion_flag <> "1"`;
-        return db.select(sql);
+        return this.db.select(sql);
     }
 
     async delete(purchaseOrderId) {
@@ -56,6 +57,6 @@ module.exports = class PurchaseOrdersRepository {
                         deletion_flag = "1"
                       WHERE
                           id = ${purchaseOrderId}`;
-        return db.delete(sql);
+        return this.db.delete(sql);
     }
 };
